@@ -1,0 +1,33 @@
+Ques-12:
+
+Given an array a[] of size N which contains elements from 0 to N-1, you need to find all the elements occurring more than 
+once in the given array.
+
+Note: The extra space is only for the array to be returned.
+Try and perform all operations within the provided array.
+
+
+Ans-12:
+
+    public:
+    vector<int> duplicates(int arr[], int n) 
+    {
+        set<int> ans;
+        vector<int> v;
+
+        sort(arr, arr+n);
+
+        for(int i=0;i<n-1;i++){
+            if(arr[i]==arr[i+1]){
+                ans.insert(arr[i]);
+            }
+        }
+
+        for(auto i:ans){
+            v.push_back(i);
+        }
+
+        if(v.size()==0) return {-1};
+        
+        return v;
+    }

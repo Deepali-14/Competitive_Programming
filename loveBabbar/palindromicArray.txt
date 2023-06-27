@@ -1,0 +1,33 @@
+Ques-18:
+
+Given a Integer array A[] of n elements. Your task is to complete the function PalinArray. Which will return 1 if all the 
+elements of the Array are palindrome otherwise it will return 0.   
+
+
+
+Ans-18:
+
+    public:
+    int PalinArray(int a[], int n)
+    {
+        int m,o,r,rev=0,count=0;
+    	for(int i=0; i<n; i++)
+    	{
+    	    m=o=a[i];
+    	    rev=0;
+    	    while(m>0)
+    	    {
+    	        r=m%10;
+    	        rev=rev*10+r;
+    	        m=m/10;
+    	    }
+    	    if(rev==o)
+    	    {
+    	        count++;
+    	    }
+    	}
+    	if(count==n)
+    	    return 1;
+    	else
+    	    return 0;
+    }

@@ -1,0 +1,54 @@
+Ques-1: Given an array Arr[] of N integers. Find the contiguous sub-array(containing at least one number) 
+which has the maximum sum and return its sum.
+KADANE'S ALGORITHM
+
+
+Ans-1:
+    class Solution
+    {
+    public:
+    // arr: input array
+    // n: size of array
+    //Function to find the sum of contiguous subarray with maximum sum.
+    long long maxSubarraySum(int arr[], int n)
+    {
+        long long cs=0,largest=INT_MIN;
+        for(int i=0; i<n ; i++)
+        {
+            cs=cs+arr[i];
+            if(cs>largest)
+                largest=cs;
+            if(cs<0)
+                cs=0;
+        }
+        if(largest==0)
+           largest -1; 
+        
+        return largest;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main()
+{
+    int t,n;
+    
+    cin>>t; //input testcases
+    while(t--) //while testcases exist
+    {
+        
+        cin>>n; //input size of array
+        
+        int a[n];
+        
+        for(int i=0;i<n;i++)
+            cin>>a[i]; //inputting elements of array
+            
+        Solution ob;
+        
+        cout << ob.maxSubarraySum(a, n) << endl;
+    }
+}
+
+// } Driver Code Ends

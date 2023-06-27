@@ -1,0 +1,20 @@
+Ques-15:
+An element is called a peak element if its value is not smaller than the value of its adjacent elements(if they exists).
+Given an array arr[] of size N, Return the index of any one of its peak elements.
+Note: The generated output will always be 1 if the index that you return is correct. Otherwise output will be 0. 
+
+
+Ans-15:
+    public:
+    int peakElement(int arr[], int n)
+    {
+       int i;
+       for(i=1; i<n; i++)
+       {
+            if(arr[i]>arr[i-1])
+                continue;
+            else if(arr[i]<arr[i-1])
+                return i-1;
+       }
+       return i-1;
+    }

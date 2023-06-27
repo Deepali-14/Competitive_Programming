@@ -1,0 +1,13 @@
+Ques-3:
+
+Given an array A of size N of integers. Your task is to find the minimum and maximum elements in the array.
+
+
+
+Ans-3:
+
+pair<long long, long long> getMinMax(long long a[], int n) 
+{
+    sort(a, a+n, greater<int>());
+    return make_pair(a[n-1], a[0]);
+}

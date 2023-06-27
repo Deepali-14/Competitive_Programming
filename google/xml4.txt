@@ -1,0 +1,114 @@
+package com.example.nearbyplacesdemo;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+    //Initialize Variable
+    Spinner spType;
+    Button btFind;
+    SupportMapFragment supportMapFragment;
+    GoogleMap map;
+    FusedLocationProviderClient fusedLocationProviderClient;
+    double currentLat=0, currentLong=0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //Assign Variable
+        spType=findViewById(R.id.sp_type);
+        btFind=findViewById(R.id.bt_find);
+        supportMapFragment=(SupportMapFragment) getSupportFragmentManager()
+                .findFragmmentById(R.id.google_map);
+
+        //Initialize array of place type
+        String[] placeTypeList={"atm", "bank", "hospital", "movie_theater", "restaurant"};
+        //Initialize array of place name
+        String[] placeNameList={"ATM", "Bank", "Hospital", "Movie Theater", "Restaurant"};
+        //set adapter on spinner
+        spType.setAdapter(new ArrayAdapter<>(context: MianActivity.this
+                ,android.R.layout.simple_spinner_dropdown_item,placeNameList));
+
+        //Initialize fused location provider client
+        fusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(activity: this);
+
+        //check permission
+        if(ActivityCompat.checkSelfPermission(context: MainActivity.this
+                ,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
+            //When permission granted
+            //Call method
+            getCurrentLocation();
+        }else{
+            //When permission denied
+            //Request permission
+            ActivityCompat.requestPermissions(activity:MainActivity.this
+                    ,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},requestCode: 44);
+        }
+        btFind.setOnClickListener(new View.OnClickKListener(){
+            @Override
+            public void onClick(View v){
+                //Get selected position of spinner
+                int i=spType.getSelectedItemPosition();
+                //Initialize URL
+                String url="https://maps.googleapis.com/maps/api/place/nearbysearch/json"+ //URL
+                "?location=" + currentLat + "," + currentLong + //Location latitude and longitude
+                "&radius=5000" + //Nearby radius
+                "&types=" + placeTypeList[i] + //Place type
+                "&sensor=true" + //Sensor
+                "&key=" + getResources().getString(R.string.google_map_key);//Google map key
+
+            }
+        })
+    }
+
+    private void getCurrentLocation() {
+        //Initialize task location
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Loaction>(){
+            @Override
+            public void onSuccess(Location location){
+                //When Success
+                if(location!=null)
+                {
+                    //When location is not equal to null
+                    //Get current latitude
+                    currentLat=location.getLatitude();
+                    //Get current longitude
+                    currentLong=-location.getLongitude();
+                    //sync map
+                    supportMapFragment.getMapAsync(new OnMapReadyCallback(){
+                        @Override
+                        public void onMapReady(GoogleMap googleMap){
+                            //When map is ready
+                            map=googleMap;
+                            //Zoom current location on map
+                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                                    new LatLng(currentLat,currentLong), v: 10
+
+                            ));
+                        }
+
+                    })
+                }
+            }
+
+        })
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 44){
+            if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                //when permission granted
+                //call method
+                getCurrentLocation();
+            }
+        }
+    }
+
+}

@@ -1,0 +1,34 @@
+Ques-4:
+Given an unsorted array A of size N that contains only non-negative integers, find a continuous sub-array which adds to a 
+given number S and return the left and right index of that subarray.In case of multiple subarrays, return the subarray 
+indexes which comes first on moving from left to right.
+Note:- Both the indexes in the array should be according to 1-based indexing. You have to return an arraylist consisting of 
+two elements left and right. In case no such subarray exists return an array consisting of element -1.
+
+
+Ans-4:
+vector<int> subarraySum(int arr[], int n, long long s)
+    {
+        int i=0,j=0;
+        long long temp=0;
+        if(s==0)
+        {
+            return {-1};
+        }
+        while(j<=n)
+        {
+            while(temp<s)
+            {
+                temp+=arr[j++];
+            }
+            if(temp==s)
+            {
+                return {i+1,j};
+            }
+            if(temp>s)
+            {
+                temp-=arr[i++];
+            }
+        }
+        return {-1};
+    }

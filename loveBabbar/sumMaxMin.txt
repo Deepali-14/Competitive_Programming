@@ -1,0 +1,18 @@
+Ques-2:
+
+Given an array A of size N of integers. Your task is to find the sum of minimum and maximum element in the array.
+
+
+
+Ans-2:
+
+class Solution
+{
+   public:
+    int findSum(int A[], int N)
+    {
+    	sort(A, A + N, greater<int>());
+    	return A[0]+A[N-1];
+    }
+
+};

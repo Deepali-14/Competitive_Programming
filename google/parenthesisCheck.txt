@@ -1,0 +1,25 @@
+Ques-6:Given an expression string x. Examine whether the pairs and the orders of “{“,”}”,”(“,”)”,”[“,”]” are correct 
+in exp.
+For example, the function should return 'true' for exp = “[()]{}{[()()]()}” and 'false' for exp = “[(])”.
+
+
+Ans-6:
+bool ispar(string x)
+    {
+        stack<char> s;
+        int i;
+        
+        for(i=0; i<x.length(); i++)
+        {
+            if(s.empty())
+                s.push(x[i]);
+            else if(x[i]==')' && s.top()=='(' || x[i]==']' && s.top()=='[' || x[i]=='}' && s.top()=='{')
+                 s.pop();
+            else
+                s.push(x[i]);
+        }
+        if(s.empty())
+            return true;
+        else
+            return false;
+    }

@@ -1,0 +1,23 @@
+Ques-16:
+
+Given two sorted arrays array1 and array2 of size m and n respectively. Find the median of the two sorted arrays.
+
+
+
+Ans-16:
+   
+    public:
+    double MedianOfArrays(vector<int>& array1, vector<int>& array2)
+    {
+            vector<int> array3(array1.size()+array2.size());
+            merge(array1.begin(), array1.end(), array2.begin(), array2.end(), array3.begin());
+            int n=array3.size();
+            // for(int i=0; i<array3.size(); i++)
+            //     cout<<array3[i]<<endl;
+            // cout<<endl;
+            
+            if(array3.size()%2==0)
+                return (double)(array3[(n-1)/2]+array3[((n-1)/2)+1])/2;
+            
+            return array3[n/2];
+    }

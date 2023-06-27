@@ -1,0 +1,44 @@
+Ques-5:You are given an array consisting of n integers which denote the position of a stall. You are also given an integer
+k which denotes the number of aggressive cows. You are given the task of assigning stalls to k cows such that the minimum 
+distance between any two of them is the maximum possible.
+The first line of input contains two space-separated integers n and k.
+The second line contains n space-separated integers denoting the position of the stalls.
+
+
+Ans-5:
+    bool place(vector<int> &stalls, int k, int d)
+    {
+        int idx=0,count=1;
+        for(int i=1; i<stalls.size(); i++)
+        {
+            if(stalls[i]-stalls[idx]>=d)
+            {
+                count++;
+                idx=i;
+            }
+            if(k==count)
+                return true;
+        }
+        return false;
+    }
+    int solve(int n, int k, vector<int> &stalls) 
+    {
+    
+        sort(stalls.begin(), stalls.end());
+        int l=1,res;
+        int h=stalls[stalls.size()-1]-stalls[0], mid;
+        while(l<=h)
+        {
+            mid=(l+h)/2;
+            if(place(stalls, k, mid))
+            {
+                res=mid;
+                l=mid+1;
+            }
+            else
+            {
+                h=mid-1;
+            }
+        }
+        return res;
+    }

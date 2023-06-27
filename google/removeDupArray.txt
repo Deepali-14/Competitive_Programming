@@ -1,0 +1,28 @@
+Ques-19:
+Given a sorted array A[] of size N, delete all the duplicated elements from A[]. Modify the array such that if there are X 
+distinct elements in it then the first X positions of the array should be filled with them in increasing order and return 
+the number of distinct elements in the array.
+
+Note:
+1. Don't use set or HashMap to solve the problem.
+2. You must return the number of distinct elements(X) in the array, the generated output will print all the elements of the 
+modified array from index 0 to X-1.
+
+Ans-19:
+    public:
+    int remove_duplicate(int a[],int n){
+        if(n==0 || n==1)
+            return n;
+        
+        else
+        {
+            int j=0;
+            for(int i=0; i<n-1; i++)
+            {
+                if(a[i]!=a[i+1])
+                    a[j++]=a[i];
+            }
+            a[j++]=a[n-1];
+            return j;
+        }
+    }
